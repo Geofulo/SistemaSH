@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Modas LETY | {% block titulo %}{% endblock %}</title>
+
+	<link href="{{STATIC_URL}}css/bootstrap.min.css" rel="stylesheet">
+	<link href="{{STATIC_URL}}css/ekko-lightbox.min.css" rel="stylesheet">
+	<link href="{{STATIC_URL}}css/ekko-lightbox.css" rel="stylesheet">
+	<link href="{{STATIC_URL}}css/modelos.css" rel="stylesheet">	
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="{{STATIC_URL}}js/bootstrap.min.js"></script>
+	<script src="{{STATIC_URL}}js/ekko-lightbox.min.js"></script>
+	<script src="{{STATIC_URL}}js/modelos.js"></script>
+
+	<script data-require="jquery@*" data-semver="2.0.3" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+
+</head>
+<body class="container-fluid">
+
+	<div class="row color5">
+		<div class="col-xs-6 col-sm-7 col-md-9 color2">
+			<h1>Modas de Colección LETY</h1>
+		</div>
+
+{% if user.is_authenticated %}
+
+		<div class="col-xs-4 col-sm-3 col-md-2">
+			<div class="input-group ">  				
+  				<input type="text" class="form-control " placeholder="Buscar">
+  				<span class="input-group-addon glyphicon glyphicon-search"></span>
+			</div>
+		</div>
+		<div class="col-xs-2 col-sm-2 col-md-1 color4 divright">						
+				<a class="btn btn-danger right" href="{% url 'logout' %}">Salir</a>
+		</div>
+	</div>
+
+{% if user.username = 'Cliente' %}
+	
+	<div class="row color1">
+		<div class="col-xs-11 col-sm-6 col-md-6 div-center color4">
+			<div class="btn-group btn-group-justified">
+
+				{% block menu %} {% endblock %}
+	  			
+			</div>
+		</div>
+	</div>
+	<br>
+
+	{% block contenido_cliente %}{% endblock %}
+	
+{% endif %}
+
+
+{% if user.username == 'hulehuarsa' %}
+
+	{% block contenido_admin %}{% endblock %}
+	
+{% endif %}
+
+
+{% endif %}
+</body>
+</html>
+
+
+
+
+<!-- Script para el diálogo de confirmación de eliminar -->
+<script>
+$(document).ready(function() {
+    $('a[data-confirm]').click(function(ev) {
+        var href = $(this).attr('href');
+        if (!$('#dataConfirmModal').length) {           
+            $('body').append('<div id="dataConfirmModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dataConfirmLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h3 id="dataConfirmLabel">Confirmar la eliminación</h3></div><div class="modal-body"></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button><a class="btn btn-danger danger" id="dataConfirmOK">Eliminar</a></div></div></div></div>');
+        } 
+        $('#dataConfirmModal').find('.modal-body').text($(this).attr('data-confirm'));
+        $('#dataConfirmOK').attr('href', href);
+        $('#dataConfirmModal').modal({show:true});
+        return false;
+    });
+});
+</script>

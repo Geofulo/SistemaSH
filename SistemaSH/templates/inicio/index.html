@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Modas de colección LETY</title>
+
+	<link href="{{STATIC_URL}}css/bootstrap.min.css" rel="stylesheet">
+	<link href="{{STATIC_URL}}css/inicio.css" rel="stylesheet">
+
+</head>
+<body class="container-fluid text-center">
+
+	<div class="row">		
+		<div class="col-xs-6 col-sm-3 col-md-3 iniciodiv">
+			<form role="form" action="." method="POST">				
+				{% csrf_token %}	
+				<h4>Ingrese con el usuario y contraseña que<br><b>Modas de Colección LETY
+				</b><br>le concedió para acceder</h4>	
+							
+				<input name="username" type="text" class="form-control" placeholder="Usuario">	
+				<br>
+				<input name="password" type="password" class="form-control" placeholder="Contraseña">	
+				<br>
+				
+				<button type="submit" class="btn btn-primary">ENTRAR</button>	
+				<br><br>
+				<h5><small>Si no cuenta con ella, solicítela personalmente.</small></h5>
+	  		</form>
+	 	</div>
+	</div>
+<!--
+  	<div class="jumbotron">
+  		<h1>Modas de Colección LETY</h1>
+  		<p>¡Proximamente!</p>	
+	</div>
+-->
+</body>
+</html>

@@ -1,0 +1,66 @@
+.a-exhibido {
+	margin: 0 0 3px;
+}
+
+.right {
+	float: right;	
+	padding-left: 30%;
+	padding-right: 30%;
+}
+
+.div-center {
+	left: 50%;
+	transform: translate(-50%, 0%);
+}
+
+.divmodelo {
+	margin: 0px;
+	text-align: center;
+}
+
+.img_table {
+	width: 50px;
+	height: 50px;
+}
+
+.circular {	
+	width: 20px;
+	height: 25px;
+	border-radius: 49%;	
+}
+
+.icon_circular {
+	right: 7px;
+	top: -3px;	
+}
+
+.badge-color {
+	
+}
+
+.badge-except {
+	color: #000000;
+}
+
+.div-color {
+	display: inline-block;
+	height: 30px;
+	width: 30px;
+	color: white;
+	border-radius: 50%;
+}
+
+
+/*
+.div-fondo-colores {
+	background-image: url('../img/fondo1.jpg');
+	background-repeat: no-repeat;
+}
+*/
+
+/*.color1 { background-color: red; }
+.color2 { background-color: blue; }
+.color3 { background-color: yellow; }
+.color4 { background-color: black; }
+.color5 { background-color: purple; }
+.color6 { background-color: green; }*/

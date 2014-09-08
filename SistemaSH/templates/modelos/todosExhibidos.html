@@ -1,0 +1,36 @@
+{% extends 'baseTemplate.html' %}
+
+{% block titulo %} Exhibidos {% endblock %}
+
+{% block menu %}
+	<a class="btn btn-info active" href="{% url 'consultar_exhibidos' %}">Exhibidos esta semana</a>	  			
+	<a class="btn btn-info" href="{% url 'consultar_modelos' %}">Todos los modelos</a>
+{% endblock %}
+
+{% block contenido_cliente %} 
+
+	<div class="row text-center color5">
+		<h4>Actualmente esta sección no esta disponible</h4>
+		<br>
+		<img src="{{STATIC_URL}}img/sad.png">
+	</div>
+	
+<!--
+	<div class="row color5">
+		{% for exhibido in exhibidos %}			
+			{% if exhibido.exhibido == True %}				
+    			<div class="col-xs-6 col-sm-4 col-md-2 divmodelo color1">
+					<a href="#" class="thumbnail">
+      					<img src="{{MEDIA_URL}}{{exhibido.modelo_exhibido.foto}}">
+      					<h4>{{exhibido.modelo_exhibido.nombre}}</h4>
+    				</a>
+    			</div>			
+    		{% endif %}
+		{% endfor %}
+
+		{% block prueba %} {% endblock %}		
+
+	</div>
+-->
+
+{% endblock %}

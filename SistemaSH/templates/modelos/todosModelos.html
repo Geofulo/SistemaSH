@@ -1,0 +1,126 @@
+{% extends 'baseTemplate.html' %}
+
+{% block titulo %} Modelos {% endblock %}
+
+{% block menu %}
+	<a class="btn btn-info" href="{% url 'consultar_exhibidos' %}">Exhibidos esta semana</a>	  			
+	<a class="btn btn-info active" href="{% url 'consultar_modelos' %}">Todos los modelos</a>
+{% endblock %}
+
+{% block contenido_cliente %}				
+	
+	<div class="row">		
+		{% for modelo in modelos %}			
+			<div class="row col-xs-6 col-sm-4 col-md-2 divmodelo">
+				<a href="{{MEDIA_URL}}{{modelo.foto}}" data-toggle="lightbox" data-gallery="multiimages" data-title="{{modelo.nombre}}" class="thumbnail">
+      				<img src="{{MEDIA_URL}}{{modelo.foto}}" class="img-responsive">
+      				<h4>{{modelo.nombre}}</h4>   
+      				<p>      					
+      					{% for color in modelo.color.all %}							
+							{% if color.exacolor == "#FFFFFF" %}
+								<span class="badge badge-color badge-except" style="background-color:{{ color.exacolor }}">{{ color }}</span>
+							{% else %}
+								<span class="badge badge-color" style="background-color:{{ color.exacolor }}">{{ color }}</span>	
+							{% endif %}
+						{% endfor %}
+      				</p>
+    			</a>
+    		</div>
+		{% endfor %}		
+
+		{% block prueba %} {% endblock %}		
+
+	</div>
+
+{% endblock %}
+
+
+{% block contenido_admin %}
+	
+	<div class="row">
+		<div class="btn-group" style="float: right; margin: 0 2%">			
+			<a class="btn btn-success" href="{% url 'agregar_modelo' %}">
+				<span class="glyphicon glyphicon-plus">&nbsp</span>Agregar</a>
+		</div>
+	</div>
+	<br>
+
+	<div class="row">
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<tr>
+					<th>Clave</th>
+					<th>Nombre</th>
+					<th>Fecha de Creación</th>
+					<th>Colores</th>
+					<th>Disponible</th>
+					<th>Exhibido</th>
+					<th>Foto</th>
+					<th>Acciones</th>
+				</tr>
+				
+				{% for modelo in modelos %}		
+				<tr>
+					<td>{{ modelo.clave }}</td>
+					<td>{{ modelo.nombre }}</td>
+					<td>{{ modelo.fecha }}</td>
+					<td>
+						{% for color in modelo.color.all %}
+							{% if color.exacolor == "#FFFFFF" %}
+								<span class="badge badge-color badge-except" style="background-color:{{ color.exacolor }}">{{ color }}</span>
+							{% else %}
+								<span class="badge badge-color" style="background-color:{{ color.exacolor }}">{{ color }}</span>	
+							{% endif %}
+						{% endfor %}
+					</td>
+					<td>
+						{% if modelo.disponible == True %}					
+							<div class="btn-group">		
+								<a class="btn btn-success circular" disabled="disabled"><span class="glyphicon glyphicon-ok icon_circular"></span></a>
+							</div>				
+						{% else %}	
+							<div class="btn-group">		
+								<a class="btn btn-danger circular" disabled="disabled"><span class="glyphicon glyphicon-remove icon_circular"></span></a>
+							</div>					
+						{% endif %}
+					</td>
+
+					<td>						
+					{% for each in modelo.exhibido_set.all %}
+						{% if each.exhibido == True %}									
+							<a href="{% url 'eliminar_exhibido' each.modelo_exhibido.pk each.color_exhibido.pk %}" class="a-exhibido btn btn-success">Exhibido</a>		
+						{% else %}							
+							<a href="{% url 'agregar_exhibido' each.modelo_exhibido.pk each.color_exhibido.pk %}" class="a-exhibido btn btn-default">No exhibido</a>
+						{% endif %}
+					{% endfor %}
+					</td>
+					
+					<td>
+						<a href="{{MEDIA_URL}}{{modelo.foto}}" data-toggle="lightbox" data-gallery="multiimages" data-title="{{modelo.nombre}}">
+							<img class="img-rounded img_table" src="{{MEDIA_URL}}{{modelo.foto}}">
+						</a>
+					</td>
+
+					<td>
+						<div class="btn-group">
+							<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+								<span class="glyphicon glyphicon-cog"></span>
+				      		</button>
+				      		<ul class="dropdown-menu" role="menu">	
+				        		<li>
+				        			<a href="{% url 'editar_modelo' modelo.pk %}"><span class="glyphicon glyphicon-pencil">&nbsp</span>Editar</a>
+				        		</li>
+				        		<li>
+				        			<a href="{% url 'eliminar_modelo' modelo.pk %}" data-confirm="¿Estás seguro que deseas eliminar el Modelo {{ modelo.clave }} - {{ modelo.nombre }}?"><span class="glyphicon glyphicon-trash">&nbsp</span>Borrar</a>
+				        		</li>
+				      		</ul>
+						</div>
+					</td>
+				</tr>
+				{% endfor %}
+
+			</table>
+		</div>
+	</div>
+
+{% endblock %}
