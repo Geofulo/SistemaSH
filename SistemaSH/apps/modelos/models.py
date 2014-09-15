@@ -15,7 +15,7 @@ class Modelo(models.Model):
 class Exhibido(models.Model):
 	modelo_exhibido = models.ForeignKey(Modelo)	
 	color_exhibido = models.ForeignKey(Color)
-	exhibido = models.BooleanField(default=True)		
+	exhibido = models.BooleanField(default=False)		
 
 	def __unicode__(self):
 		clave  = self.modelo_exhibido.clave

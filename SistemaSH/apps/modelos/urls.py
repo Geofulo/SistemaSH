@@ -6,6 +6,8 @@ from .views import EditarModelo
 from .views import eliminar_modelo
 from .views import agregar_exhibido
 from .views import eliminar_exhibido
+from .views import BuscarModelo
+from .views import FiltrarModelos
 #from .views import agregar_modelo
 
 urlpatterns = patterns('',
@@ -17,4 +19,6 @@ urlpatterns = patterns('',
 	url(r'^eliminar/(?P<clave_modelo>\d+)/$' , eliminar_modelo, name='eliminar_modelo'),	
 	url(r'^exhibir/(?P<clave_modelo>\d+)/(?P<clave_color>\d+)/$' , agregar_exhibido, name='agregar_exhibido'),	
 	url(r'^noexhibir/(?P<clave_modelo>\d+)/(?P<clave_color>\d+)/$' , eliminar_exhibido, name='eliminar_exhibido'),	
+	url(r'^buscar/$' , BuscarModelo.as_view(), name='buscar_modelo'),	
+	url(r'^filtrar/(?P<clave_filtro>[\w\+]+)/' , FiltrarModelos.as_view(), name='filtrar_modelos'),	
 )

@@ -4,9 +4,9 @@
 
 {% block contenido_admin %}
 	
-	<div class="row color3">
-		<div class="col-xs-8 col-sm-4 col-md-4 col-xs-offset-2 col-sm-offset-4 col-md-offset-4 text-center color6">
-			<h2>Agregar Modelo</h2>
+	<div class="row">
+		<div class="col-xs-6 col-sm-4 col-md-4 col-xs-offset-3 col-sm-offset-4 col-md-offset-4 form-color">
+			<h2 class="text-center">Agregar Modelo</h2>
 			<br>
 			{% if messages %}
 			<div class="row">
@@ -26,6 +26,7 @@
 
 		    		{{ form.as_p }}		
 
+
 <!-- 		    		<br>
 		    		<div class="col-xs-8 col-sm-6 col-md-4 col-xs-offset-2 col-sm-offset-3 col-md-offset-4">
 		    			{{ form.clave }}
@@ -33,9 +34,11 @@
 		    		<br><br><br>
 -->				
  					<br>
-			    	<div class="btn-group">				
-						<button type="submit" class="btn btn-success">Agregar</button>
-						<a href="{% url 'consultar_modelos' %}" class="btn btn-danger">Cancelar</a>				
+ 					<div class="text-center">
+			    		<div class="btn-group">				
+							<button type="submit" class="btn btn-success">Agregar</button>
+							<a href="{% url 'consultar_modelos' %}" class="btn btn-danger">Cancelar</a>				
+						</div>
 					</div>
 				</div>
 			</form>

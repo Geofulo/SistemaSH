@@ -3,16 +3,48 @@
 {% block titulo %} Modelos {% endblock %}
 
 {% block menu %}
-	<a class="btn btn-info" href="{% url 'consultar_exhibidos' %}">Exhibidos esta semana</a>	  			
-	<a class="btn btn-info active" href="{% url 'consultar_modelos' %}">Todos los modelos</a>
+	<div class="btn-group btn-group-justified">
+		<a class="btn btn-info" href="{% url 'consultar_exhibidos' %}">Exhibidos esta semana</a>	  			
+		<a class="btn btn-info active" href="{% url 'consultar_modelos' %}">Todos los modelos</a>		
+	</div>
 {% endblock %}
+
+{% block filtrar %} 
+	<div class="btn-group filtrar-div">			
+			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> Ordenar por <span class="caret"></span></button>
+  			<ul class="dropdown-menu" role="menu">
+  				<li><a href="{% url 'filtrar_modelos' '1' %}">Alfabéticamente ascendente</a></li>
+			    <li><a href="{% url 'filtrar_modelos' '2' %}">Alfabéticamente descendente</a></li>
+			    <li><a href="{% url 'filtrar_modelos' '3' %}">Más recientes</a></li>
+			    <li><a href="{% url 'filtrar_modelos' '4' %}">Más viejos</a></li>		
+			</ul>
+		</div>
+{% endblock %}
+
+{% block buscar %} 	
+	<form method="POST" action="{% url 'buscar_modelo' %}">
+		{% csrf_token %}
+		<div class="input-group search-div">  				  				
+  			<input type="text" name="buscalo" class="form-control " placeholder="Buscar">
+  			<span class="input-group-btn">
+  				<button type="submit" class="btn glyphicon glyphicon-search"></button>
+  			</span>  				  				
+		</div>
+	</form>
+{% endblock %}			
+
+
+
 
 {% block contenido_cliente %}				
 	
 	<div class="row">		
-		{% for modelo in modelos %}			
-			<div class="row col-xs-6 col-sm-4 col-md-2 divmodelo">
-				<a href="{{MEDIA_URL}}{{modelo.foto}}" data-toggle="lightbox" data-gallery="multiimages" data-title="{{modelo.nombre}}" class="thumbnail">
+		{% for modelo in modelos %}					
+			<div class="row col-xs-6 col-sm-4 col-md-2 divmodelo">				
+				{% if modelo.fecha|timesince >= "1 week" %}
+      				<span class="badge badge-nuevo">Nuevo</span>
+      			{% endif %}
+				<a href="{{MEDIA_URL}}{{modelo.foto}}" data-toggle="lightbox" data-gallery="multiimages" data-title="{{modelo.nombre}}" class="thumbnail item-modelos">
       				<img src="{{MEDIA_URL}}{{modelo.foto}}" class="img-responsive">
       				<h4>{{modelo.nombre}}</h4>   
       				<p>      					
@@ -23,7 +55,7 @@
 								<span class="badge badge-color" style="background-color:{{ color.exacolor }}">{{ color }}</span>	
 							{% endif %}
 						{% endfor %}
-      				</p>
+      				</p>      				
     			</a>
     		</div>
 		{% endfor %}		
@@ -35,6 +67,8 @@
 {% endblock %}
 
 
+
+
 {% block contenido_admin %}
 	
 	<div class="row">
@@ -42,25 +76,39 @@
 			<a class="btn btn-success" href="{% url 'agregar_modelo' %}">
 				<span class="glyphicon glyphicon-plus">&nbsp</span>Agregar</a>
 		</div>
+		<div class="btn-group" style="float: right; margin: 0 2px">			
+			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> Ordenar por <span class="caret"></span></button>
+  			<ul class="dropdown-menu" role="menu">
+  				<li><a href="{% url 'filtrar_modelos' '1' %}">Alfabéticamente ascendente</a></li>
+			    <li><a href="{% url 'filtrar_modelos' '2' %}">Alfabéticamente descendente</a></li>
+			    <li><a href="{% url 'filtrar_modelos' '3' %}">Más recientes</a></li>
+			    <li><a href="{% url 'filtrar_modelos' '4' %}">Más viejos</a></li>			    
+			    <li class="divider"></li>
+			    <li><a href="{% url 'filtrar_modelos' 'existentes' %}">Solo existentes</a></li>
+			    <li><a href="{% url 'filtrar_modelos' 'exhibidos' %}">Solo exhibidos</a></li>
+			    <li><a href="{% url 'filtrar_modelos' 'no_exhibidos' %}">Solo no exhibidos</a></li>
+			</ul>
+		</div>		
 	</div>
 	<br>
 
-	<div class="row">
+	<div class="row col-md-12">
 		<div class="table-responsive">
 			<table class="table table-striped">
-				<tr>
+				<tr></tr>
+				<tr class="row-black">
 					<th>Clave</th>
 					<th>Nombre</th>
-					<th>Fecha de Creación</th>
-					<th>Colores</th>
-					<th>Disponible</th>
+					<th>Fecha Creación</th>
+					<th>Colores Disponibles</th>
+					<th>Existe</th>
 					<th>Exhibido</th>
 					<th>Foto</th>
 					<th>Acciones</th>
 				</tr>
 				
 				{% for modelo in modelos %}		
-				<tr>
+				<tr class="row-white">
 					<td>{{ modelo.clave }}</td>
 					<td>{{ modelo.nombre }}</td>
 					<td>{{ modelo.fecha }}</td>
@@ -88,7 +136,7 @@
 					<td>						
 					{% for each in modelo.exhibido_set.all %}
 						{% if each.exhibido == True %}									
-							<a href="{% url 'eliminar_exhibido' each.modelo_exhibido.pk each.color_exhibido.pk %}" class="a-exhibido btn btn-success">Exhibido</a>		
+							<a href="{% url 'eliminar_exhibido' each.modelo_exhibido.pk each.color_exhibido.pk %}" class="a-exhibido btn btn-primary">Exhibido</a>		
 						{% else %}							
 							<a href="{% url 'agregar_exhibido' each.modelo_exhibido.pk each.color_exhibido.pk %}" class="a-exhibido btn btn-default">No exhibido</a>
 						{% endif %}
@@ -111,7 +159,7 @@
 				        			<a href="{% url 'editar_modelo' modelo.pk %}"><span class="glyphicon glyphicon-pencil">&nbsp</span>Editar</a>
 				        		</li>
 				        		<li>
-				        			<a href="{% url 'eliminar_modelo' modelo.pk %}" data-confirm="¿Estás seguro que deseas eliminar el Modelo {{ modelo.clave }} - {{ modelo.nombre }}?"><span class="glyphicon glyphicon-trash">&nbsp</span>Borrar</a>
+				        			<a href="{% url 'eliminar_modelo' modelo.pk %}" data-confirm="¿Estás seguro que deseas eliminar el Modelo?"><span class="glyphicon glyphicon-trash">&nbsp</span>Borrar</a>
 				        		</li>
 				      		</ul>
 						</div>

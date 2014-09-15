@@ -7,30 +7,59 @@
 	<a class="btn btn-info" href="{% url 'consultar_modelos' %}">Todos los modelos</a>
 {% endblock %}
 
+
+{% block buscar %} 
+	<form method="POST" action="{% url 'buscar_modelo' %}">
+		{% csrf_token %}
+		<div class="input-group search-div">  				  				
+  			<input type="text" name="buscalo" class="form-control " placeholder="Buscar">
+  			<span class="input-group-btn">
+  				<button type="submit" class="btn glyphicon glyphicon-search"></button>
+  			</span>  				  				
+		</div>
+	</form>
+{% endblock %}		
+
+
 {% block contenido_cliente %} 
 
+<!--
 	<div class="row text-center color5">
 		<h4>Actualmente esta sección no esta disponible</h4>
 		<br>
 		<img src="{{STATIC_URL}}img/sad.png">
 	</div>
-	
-<!--
-	<div class="row color5">
-		{% for exhibido in exhibidos %}			
-			{% if exhibido.exhibido == True %}				
-    			<div class="col-xs-6 col-sm-4 col-md-2 divmodelo color1">
-					<a href="#" class="thumbnail">
-      					<img src="{{MEDIA_URL}}{{exhibido.modelo_exhibido.foto}}">
-      					<h4>{{exhibido.modelo_exhibido.nombre}}</h4>
-    				</a>
-    			</div>			
-    		{% endif %}
+-->
+
+	<div class="row">
+		{% for exhibido in exhibidos %}						
+    		<div class="row col-xs-6 col-sm-4 col-md-2 divmodelo">
+    			{% if exhibido.fecha|timesince >= "1 week" %}
+      				<span class="badge badge-nuevo">Nuevo</span>
+      			{% endif %}
+				<a href="{{MEDIA_URL}}{{exhibido.foto}}" data-toggle="lightbox" data-gallery="multiimages" data-title="{{exhibido.nombre}}" class="thumbnail item-modelos">
+      				<img src="{{MEDIA_URL}}{{exhibido.foto}}">
+      				<h4>{{exhibido.nombre}}
+      					
+      				</h4>
+      				<p> 
+      				 		
+      				{% for color in exhibido.exhibido_set.all %}						
+      					{% if color.exhibido == True %}	
+							{% if color.color_exhibido.exacolor == "#FFFFFF" %}
+								<span class="badge badge-color badge-except" style="background-color:{{ color.color_exhibido.exacolor }}">{{ color.color_exhibido.nombre }}</span>
+							{% else %}
+								<span class="badge badge-color" style="background-color:{{ color.color_exhibido.exacolor }}">{{ color.color_exhibido.nombre }}</span>	
+							{% endif %}
+						{% endif %}
+						
+					{% endfor %}
+				
+   					</p>
+   				</a>
+   			</div>
 		{% endfor %}
 
-		{% block prueba %} {% endblock %}		
-
 	</div>
--->
 
 {% endblock %}
